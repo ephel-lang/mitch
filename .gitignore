@@ -8,6 +8,9 @@
 *.cmxs
 *.cmxa
 
+# Jetbrain idea project directory
+.idea/
+
 # ocamlbuild working directory
 _build/
 

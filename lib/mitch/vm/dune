@@ -1,0 +1,4 @@
+(library
+ (name mitch_vm)
+ (public_name mitch.vm)
+ (libraries mitch.utils))
