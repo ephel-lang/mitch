@@ -1,4 +1,4 @@
 (library
  (name mitch_system_expander)
  (public_name mitch.system.expander)
- (libraries mitch.vm))
+ (libraries preface mitch.vm))

@@ -2,37 +2,57 @@ open Mitch.Lang.Expr
 open Mitch.Vm.Objcode
 open Mitch.System
 
-let compile s = s |> Transpiler.run |> Expander.run |> Optimiser.run |> Simplifier.run |> Normaliser.run
+open Preface.Result.Monad (struct
+  type t = string
+end)
+
+let compile s =
+  return s
+  >>= Transpiler.run
+  <&> Expander.run
+  >>= Optimiser.run
+  <&> Simplifier.run
+  <&> Normaliser.run
 
 let compile_01 () =
   let result = compile (Pair (Int 1, Int 2))
   and expected = [ PUSH (INT 2); PUSH (INT 1); PAIR ] in
-  Alcotest.(check string)
-    "compile (1,2)" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile (1,2)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_02 () =
   let result = compile (Fst (Pair (Int 1, Int 2)))
   and expected = [ PUSH (INT 1) ] in
-  Alcotest.(check string)
-    "compile fst (1,2)" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile fst (1,2)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_03 () =
   let result = compile (Snd (Pair (Int 1, Int 2)))
   and expected = [ PUSH (INT 2) ] in
-  Alcotest.(check string)
-    "compile snd (1,2)" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile snd (1,2)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_04 () =
   let result = compile (Abs ("p", Fst (Var "p")))
   and expected = [ LAMBDA ("p", [ CAR ]) ] in
-  Alcotest.(check string)
-    "compile (fun p -> fst p)" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile (fun p -> fst p)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_05 () =
   let result = compile (Abs ("p", App (Fst (Var "p"), Snd (Var "p"))))
   and expected = [ LAMBDA ("p", [ DUP (0, "p"); CAR; SWAP; CDR; EXEC ]) ] in
-  Alcotest.(check string)
-    "compile (fun p -> (fst p) (snd p))" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile (fun p -> (fst p) (snd p))"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let cases =
   let open Alcotest in

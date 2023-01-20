@@ -2,49 +2,67 @@ open Mitch.Lang.Expr
 open Mitch.Vm.Objcode
 open Mitch.System
 
-let compile s = s |> Transpiler.run |> Expander.run |> Optimiser.run |> Simplifier.run |> Normaliser.run
+open Preface.Result.Monad (struct
+  type t = string
+end)
+
+let compile s =
+  return s
+  >>= Transpiler.run
+  <&> Expander.run
+  >>= Optimiser.run
+  <&> Simplifier.run
+  <&> Normaliser.run
 
 let compile_01 () =
   let result = compile (Inl (Int 1))
   and expected = [ PUSH (INT 1); LEFT ] in
-  Alcotest.(check string)
-    "compile Inl 1" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile Inl 1"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_02 () =
   let result = compile (Inr (Int 1))
   and expected = [ PUSH (INT 1); RIGHT ] in
-  Alcotest.(check string)
-    "compile Inr 1" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile Inr 1"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_03 () =
   let result =
     compile (Case (Inl (Int 1), Abs ("x", Var "x"), Abs ("x", Var "x")))
   and expected = [ PUSH (INT 1) ] in
-  Alcotest.(check string)
-    "compile case (inl 1) (fun x -> x) (fun x -> x)" (to_string expected)
-    (to_string result)
+  Alcotest.(check (result string string))
+    "compile case (inl 1) (fun x -> x) (fun x -> x)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_04 () =
   let result =
     compile (Case (Inr (Int 1), Abs ("x", Var "x"), Abs ("x", Var "x")))
   and expected = [ PUSH (INT 1) ] in
-  Alcotest.(check string)
-    "compile case (inr 1) (fun x -> x) (fun x -> x)" (to_string expected)
-    (to_string result)
+  Alcotest.(check (result string string))
+    "compile case (inr 1) (fun x -> x) (fun x -> x)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_05 () =
   let result = compile (Case (Inl (Int 1), Abs ("x", Int 2), Abs ("x", Var "x")))
   and expected = [ PUSH (INT 2) ] in
-  Alcotest.(check string)
-    "compile case (inl 1) (fun x -> 2) (fun x -> x)" (to_string expected)
-    (to_string result)
+  Alcotest.(check (result string string))
+    "compile case (inl 1) (fun x -> 2) (fun x -> x)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_06 () =
   let result = compile (Case (Inr (Int 1), Abs ("x", Var "x"), Abs ("x", Int 2)))
   and expected = [ PUSH (INT 2) ] in
-  Alcotest.(check string)
-    "compile case (inr 1) (fun x -> x) (fun x -> 2)" (to_string expected)
-    (to_string result)
+  Alcotest.(check (result string string))
+    "compile case (inr 1) (fun x -> x) (fun x -> 2)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_07 () =
   let result =
@@ -54,17 +72,19 @@ let compile_07 () =
          , Abs ("x", Case (Var "x", Abs ("y", Var "y"), Abs ("y", Int 2)))
          , Abs ("x", Int 3) ) )
   and expected = [ PUSH (INT 2) ] in
-  Alcotest.(check string)
+  Alcotest.(check (result string string))
     "compile case (inl inr 1) (fun x -> case x (fun y -> y) (fun y -> 2)) (fun \
      x -> 3)"
-    (to_string expected) (to_string result)
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_08 () =
   let result = compile (Case (Inl (Int 1), Abs ("x", Unit), Abs ("x", Var "x")))
   and expected = [ PUSH UNIT ] in
-  Alcotest.(check string)
-    "compile case (inl 1) (fun x -> unit) (fun x -> x)" (to_string expected)
-    (to_string result)
+  Alcotest.(check (result string string))
+    "compile case (inl 1) (fun x -> unit) (fun x -> x)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_09 () =
   let result =
@@ -80,9 +100,10 @@ let compile_09 () =
           ] )
     ]
   in
-  Alcotest.(check string)
-    "compile fun y -> case y (fun x -> unit) (fun x -> y)" (to_string expected)
-    (to_string result)
+  Alcotest.(check (result string string))
+    "compile fun y -> case y (fun x -> unit) (fun x -> y)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_10 () =
   let result =
@@ -98,9 +119,10 @@ let compile_10 () =
           ] )
     ]
   in
-  Alcotest.(check string)
-    "compile fun y -> case y (fun x -> unit) (fun x -> x)" (to_string expected)
-    (to_string result)
+  Alcotest.(check (result string string))
+    "compile fun y -> case y (fun x -> unit) (fun x -> x)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let cases =
   let open Alcotest in

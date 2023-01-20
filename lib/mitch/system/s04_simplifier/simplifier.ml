@@ -39,4 +39,4 @@ let rec simplify o =
   let o' = simplify_sequence o in
   if o' = o then o' else simplify o'
 
- let run o = simplify o
+let run o = simplify o

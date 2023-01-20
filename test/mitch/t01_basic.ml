@@ -2,69 +2,99 @@ open Mitch.Lang.Expr
 open Mitch.Vm.Objcode
 open Mitch.System
 
-let compile s = s |> Transpiler.run |> Expander.run |> Optimiser.run |> Simplifier.run |> Normaliser.run
+open Preface.Result.Monad (struct
+  type t = string
+end)
+
+let compile s =
+  return s
+  >>= Transpiler.run
+  <&> Expander.run
+  >>= Optimiser.run
+  <&> Simplifier.run
+  <&> Normaliser.run
 
 let compile_01 () =
   let result = compile (Int 1)
   and expected = [ PUSH (INT 1) ] in
-  Alcotest.(check string) "compile 1" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile 1"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_02 () =
   let result = compile (Abs ("x", Var "x"))
   and expected = [ LAMBDA ("x", []) ] in
-  Alcotest.(check string)
-    "compile fun x -> x" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile fun x -> x"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_03 () =
   let result = compile (Abs ("x", Unit))
   and expected = [ LAMBDA ("x", [ DROP (0, "x"); PUSH UNIT ]) ] in
-  Alcotest.(check string)
-    "compile fun x -> unit" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile fun x -> unit"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_04 () =
   let result = compile (App (Abs ("x", Var "x"), Int 1))
   and expected = [ PUSH (INT 1) ] in
-  Alcotest.(check string)
-    "compile (fun x -> x) 1" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile (fun x -> x) 1"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_05 () =
   let result = compile (App (Abs ("x", Unit), Int 1))
   and expected = [ PUSH UNIT ] in
-  Alcotest.(check string)
-    "compile (fun x -> unit) 1" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile (fun x -> unit) 1"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_06 () =
   let result = compile (App (App (Abs ("x", Abs ("y", Var "y")), Int 1), Int 2))
   and expected = [ PUSH (INT 2) ] in
-  Alcotest.(check string)
-    "compile (fun x y -> y) 1 2" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile (fun x y -> y) 1 2"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_07 () =
   (* PARTIAL APPLICATION *)
   let result = compile (App (App (Abs ("x", Abs ("y", Var "x")), Int 1), Int 2))
   and expected = [ PUSH (INT 1) ] in
-  Alcotest.(check string)
-    "compile (fun x y -> x) 1 2" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile (fun x y -> x) 1 2"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_08 () =
   let result = compile (Let ("x", Int 1, Var "x"))
   and expected = [ PUSH (INT 1) ] in
-  Alcotest.(check string)
-    "compile let x = 1 in x" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile let x = 1 in x"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_09 () =
   (* PARTIAL APPLICATION *)
   let result = compile (Abs ("f", Abs ("x", App (Var "f", Var "x"))))
   and expected = [ LAMBDA ("f", [ LAMBDA ("x", [ DIG (1, "f"); EXEC ]) ]) ] in
-  Alcotest.(check string)
-    "compile (fun f x -> f x)" (to_string expected) (to_string result)
+  Alcotest.(check (result string string))
+    "compile (fun f x -> f x)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let compile_10 () =
   let result = compile (Abs ("f", Let ("x", Int 1, App (Var "f", Var "x"))))
   and expected = [ LAMBDA ("f", [ PUSH (INT 1); EXEC ]) ] in
-  Alcotest.(check string)
-    "compile (fun f -> let x = 1 in f x)" (to_string expected)
-    (to_string result)
+  Alcotest.(check (result string string))
+    "compile (fun f -> let x = 1 in f x)"
+    (return expected <&> to_string)
+    (result <&> to_string)
 
 let cases =
   let open Alcotest in
