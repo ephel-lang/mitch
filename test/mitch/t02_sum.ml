@@ -2,7 +2,7 @@ open Mitch.Lang.Expr
 open Mitch.Vm.Objcode
 open Mitch.System
 
-let compile s = s |> Compiler.run |> Expander.run |> Optimiser.run |> Simplifier.run |> Normaliser.run
+let compile s = s |> Transpiler.run |> Expander.run |> Optimiser.run |> Simplifier.run |> Normaliser.run
 
 let compile_01 () =
   let result = compile (Inl (Int 1))

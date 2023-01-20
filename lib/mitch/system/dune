@@ -1,4 +1,13 @@
 (library
  (name mitch_system)
  (public_name mitch.system)
- (libraries preface mitch.lang mitch.vm))
+ (libraries
+  preface
+  mitch.lang
+  mitch.vm
+  mitch.system.transpiler
+  mitch.system.expander
+  mitch.system.optimiser
+  mitch.system.simplifier
+  mitch.system.normaliser)
+ (modules_without_implementation mitch_system))

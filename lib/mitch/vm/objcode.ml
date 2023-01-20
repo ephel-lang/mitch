@@ -4,17 +4,17 @@ type value =
   | INT of int
   | UNIT
 
-type instruction =
+type t =
   | PUSH of value
   | EXEC
-  | LAMBDA of string * instruction list
+  | LAMBDA of string * t list
   | DIG of int * string
   | DUP of int * string
   | DROP of int * string
   | SWAP
   | LEFT
   | RIGHT
-  | IF_LEFT of instruction list * instruction list
+  | IF_LEFT of t list * t list
   | PAIR
   | CAR
   | CDR
@@ -27,10 +27,10 @@ let rec render ppf =
   let open Format in
   function
   | [] -> ()
-  | [ a ] -> render_instruction ppf a
-  | a :: l -> fprintf ppf "%a; %a" render_instruction a render l
+  | [ a ] -> render_t ppf a
+  | a :: l -> fprintf ppf "%a; %a" render_t a render l
 
-and render_instruction ppf =
+and render_t ppf =
   let open Format in
   function
   | PUSH v -> fprintf ppf "PUSH (%a)" render_value v

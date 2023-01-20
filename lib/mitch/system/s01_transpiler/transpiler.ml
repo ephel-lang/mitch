@@ -2,16 +2,7 @@ open Mitch_utils
 open Mitch_lang
 open Mitch_vm
 
-type vstack =
-  | VAL of string
-  | VAR of string
-
-let rec render_stack ppf =
-  let open Format in
-  function
-  | [] -> fprintf ppf ""
-  | VAL s :: l -> fprintf ppf "VAL(%s), %a" s render_stack l
-  | VAR n :: l -> fprintf ppf "VAR(%s), %a" n render_stack l
+open Stack
 
 let consume n s =
   let rec consume i s =

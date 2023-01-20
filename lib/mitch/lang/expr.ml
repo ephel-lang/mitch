@@ -4,19 +4,19 @@ type kind =
   | Native of string
   | Function of kind * kind
 
-type exp =
+type t =
   | Unit
   | Int of int
-  | Abs of string * exp
-  | App of exp * exp
+  | Abs of string * t
+  | App of t * t
   | Var of string
-  | Inl of exp
-  | Inr of exp
-  | Case of exp * exp * exp
-  | Pair of exp * exp
-  | Fst of exp
-  | Snd of exp
-  | Let of string * exp * exp
+  | Inl of t
+  | Inr of t
+  | Case of t * t * t
+  | Pair of t * t
+  | Fst of t
+  | Snd of t
+  | Let of string * t * t
 
 (* Renderer *)
 

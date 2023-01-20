@@ -8,13 +8,6 @@ let is_replace =
   let open Objcode in
   function CAR | CDR | LEFT | RIGHT -> true | _ -> false
 
-let rec last =
-  let open Preface.Option.Functor.Infix in
-  function
-  | [] -> None
-  | [ a ] -> Some (a, [])
-  | a :: l -> last l <&> fun (b, l) -> (b, a :: l)
-
 let rec simplify_sequence =
   let open Objcode in
   function

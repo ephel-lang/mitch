@@ -5,18 +5,14 @@ type value =
   | Var of string
   | Dup of string
   | Val of Objcode.value
-  | Code of string * Objcode.instruction list
+  | Code of string * Objcode.t list
   | Exec of value * value
   | Left of value
   | Right of value
   | Pair of value * value
   | Car of value
   | Cdr of value
-  | IfLeft of value * Objcode.instruction list * Objcode.instruction list
-
-type stack =
-  | Stack of value * stack
-  | Protected of value list
+  | IfLeft of value * Objcode.t list * Objcode.t list
 
 let rec render_value ppf =
   let open Format in

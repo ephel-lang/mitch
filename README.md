@@ -1,7 +1,7 @@
 # mitch
 POC for compilation to Michelson
 
-## TODO
+## Compilation stage
 
 Things to be done in order to a have a complete POC:
 
