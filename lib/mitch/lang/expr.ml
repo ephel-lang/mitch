@@ -4,23 +4,30 @@ type kind =
   | Native of string
   | Function of kind * kind
 
-type t =
-  | Unit
-  | Int of int
-  | Abs of string * t
-  | App of t * t
-  | Var of string
-  | Inl of t
-  | Inr of t
-  | Case of t * t * t
-  | Pair of t * t
-  | Fst of t
-  | Snd of t
-  | Let of string * t * t
+type tInt = |
+type tUnit = |
+type ('a, 'b) tFun = |
+type ('a, 'b) tSum = |
+type ('a, 'b) tProd = |
+
+type _ t =
+  | Unit : tUnit t
+  | Int : int -> tInt t
+  | Abs : string * 'a t -> ('b, 'a) tFun t
+  | App : ('a, 'b) tFun t * 'a t -> 'b t
+  | Var : string -> 'a t
+  | Inl : 'a t -> ('a, 'b) tSum t
+  | Inr : 'b t -> ('a, 'b) tSum t
+  | Case : ('a, 'b) tSum t * ('a, 'c) tFun t * ('b, 'c) tFun t -> 'c t
+  | Pair : 'a t * 'b t -> ('a, 'b) tProd t
+  | Fst : ('a, 'b) tProd t -> 'a t
+  | Snd : ('a, 'b) tProd t -> 'b t
+  | Let : string * 'a t * 'b t -> 'a t
 
 (* Renderer *)
 
-let rec render ppf =
+let rec render : type a. Format.formatter -> a t -> unit =
+ fun ppf ->
   let open Format in
   function
   | Abs (n, c) -> fprintf ppf "fun %s -> %a" n render c
@@ -36,4 +43,4 @@ let rec render ppf =
   | Snd e -> fprintf ppf "snd(%a)" render e
   | Let (n, e, f) -> fprintf ppf "let %s = %a in %a" n render e render f
 
-let to_string o = Render.to_string render o
+let to_string : type a. a t -> string = fun o -> Render.to_string render o
