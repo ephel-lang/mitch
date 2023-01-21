@@ -22,7 +22,7 @@ type _ t =
   | Pair : 'a t * 'b t -> ('a, 'b) tProd t
   | Fst : ('a, 'b) tProd t -> 'a t
   | Snd : ('a, 'b) tProd t -> 'b t
-  | Let : string * 'a t * 'b t -> 'a t
+  | Let : string * 'a t * 'b t -> 'b t
 
 (* Renderer *)
 

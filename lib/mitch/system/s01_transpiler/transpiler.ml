@@ -97,7 +97,7 @@ and compile :
     let* o_l, s = compile l s in
     let+ o_r, s = compile r s in
     (o_l @ o_r @ [ EXEC ], VAL "app" :: List.tl (List.tl s))
-  | _ -> Error "Cannot compile expression: "
+  | _ -> Error ("Cannot compile expression: " ^ Expr.to_string e)
 
 let run : type a. a Expr.t -> (Objcode.t list, string) result =
  fun e ->
