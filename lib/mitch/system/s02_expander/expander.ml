@@ -11,6 +11,7 @@ and expand_instruction =
   let open Objcode in
   function
   | LAMBDA (n, l) -> LAMBDA (n, expand_sequence l)
+  | LAMBDA_REC (n, l) -> LAMBDA_REC (n, expand_sequence l)
   | IF_LEFT (l, r) -> IF_LEFT (expand_sequence l, expand_sequence r)
   | o -> o
 
