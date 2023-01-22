@@ -30,8 +30,8 @@ let compile_01 () =
         ( "f"
         , [
             DUP (0, "x")
-          ; IF_LEFT ([], [ DUP (2, "f"); SWAP; EXEC ])
-          ; DROP (1, "x")
+          ; IF_LEFT
+              ([ DROP (1, "x") ], [ DROP (1, "x"); DUP (1, "f"); SWAP; EXEC ])
           ; DIP (1, [ DROP (1, "f") ])
           ] )
     ]
