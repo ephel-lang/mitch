@@ -18,6 +18,8 @@ type t =
   | PAIR
   | CAR
   | CDR
+  | LAMBDA_REC of string * t list
+  | DIP of int * t list
 
 let render_value ppf =
   let open Format in
@@ -46,6 +48,8 @@ and render_t ppf =
   | PAIR -> fprintf ppf "PAIR"
   | CAR -> fprintf ppf "CAR"
   | CDR -> fprintf ppf "CDR"
+  | LAMBDA_REC (n, l) -> fprintf ppf "LAMBDA_REC[%s] { %a }" n render l
+  | DIP (i, l) -> fprintf ppf "DIP (%i, { %a })" i render l
 
 let equal a b =
   match (a, b) with

@@ -97,6 +97,10 @@ and compile :
     let* o_l, s = compile l s in
     let+ o_r, s = compile r s in
     (o_l @ o_r @ [ EXEC ], VAL "app" :: List.tl (List.tl s))
+  | Rec (f, Abs (n, e)) ->
+    let* o, s = compile_binding n e [ VAR f ] in
+    let+ g, _ = garbage f s in
+    ([ LAMBDA_REC (f, o @ [ DIP (1, [ g ]) ]) ], VAL "lambda-rec" :: s)
   | _ -> Error ("Cannot compile expression: " ^ Expr.to_string e)
 
 let run : type a. a Expr.t -> (Objcode.t list, string) result =

@@ -5,6 +5,7 @@ type t =
   | Dup of string
   | Val of Objcode.value
   | Code of string * Objcode.t list
+  | RecCode of string * Objcode.t list
   | Exec of t * t
   | Left of t
   | Right of t
@@ -20,6 +21,7 @@ let rec render_value ppf =
   | Dup n -> fprintf ppf "copy(%s)" n
   | Val v -> Objcode.render_value ppf v
   | Code (_, c) -> Objcode.render ppf c
+  | RecCode (f, c) -> fprintf ppf "Rec(%s,%a)" f Objcode.render c
   | Exec (a, b) -> fprintf ppf "Exec(%a,%a)" render_value a render_value b
   | Car a -> fprintf ppf "Car(%a)" render_value a
   | Cdr a -> fprintf ppf "Cdr(%a)" render_value a

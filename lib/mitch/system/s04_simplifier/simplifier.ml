@@ -13,6 +13,7 @@ let rec simplify_sequence =
   function
   | DIG (0, _) :: l -> l
   | DIG (1, _) :: l -> SWAP :: l
+  | DIP (0, l') :: l -> l' @ l
   | EXEC :: DROP (i, n) :: l when i > 0 -> DROP (i + 1, n) :: EXEC :: l
   | a :: DROP (i, n) :: l when is_push a && i > 0 -> DROP (i - 1, n) :: a :: l
   | a :: DROP (i, n) :: l when is_replace a && i > 0 -> DROP (i, n) :: a :: l
@@ -32,6 +33,7 @@ and simplify_instruction =
   let open Objcode in
   function
   | LAMBDA (n, l) -> LAMBDA (n, simplify_sequence l)
+  | LAMBDA_REC (n, l) -> LAMBDA_REC (n, simplify_sequence l)
   | IF_LEFT (l, r) -> IF_LEFT (simplify_sequence l, simplify_sequence r)
   | o -> o
 

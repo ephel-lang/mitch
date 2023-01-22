@@ -4,11 +4,13 @@ type kind =
   | Native of string
   | Function of kind * kind
 
-type tInt = |
-type tUnit = |
-type ('a, 'b) tFun = |
-type ('a, 'b) tSum = |
-type ('a, 'b) tProd = |
+type tInt = T_INT
+type tUnit = T_UNIT
+type ('a, 'b) tFun = T_FUN
+type ('a, 'b) tSum = T_SUM
+type ('a, 'b) tProd = T_PROD
+type 'a tCase = T_PROD
+type 'a tApp = T_APP
 
 type _ t =
   | Unit : tUnit t
@@ -23,6 +25,7 @@ type _ t =
   | Fst : ('a, 'b) tProd t -> 'a t
   | Snd : ('a, 'b) tProd t -> 'b t
   | Let : string * 'a t * 'b t -> 'b t
+  | Rec : string * ('a, 'b) tFun t -> ('a, 'b) tFun t
 
 (* Renderer *)
 
@@ -42,5 +45,6 @@ let rec render : type a. Format.formatter -> a t -> unit =
   | Fst e -> fprintf ppf "fst(%a)" render e
   | Snd e -> fprintf ppf "snd(%a)" render e
   | Let (n, e, f) -> fprintf ppf "let %s = %a in %a" n render e render f
+  | Rec (n, c) -> fprintf ppf "rec(%s,%a)" n render c
 
 let to_string : type a. a t -> string = fun o -> Render.to_string render o

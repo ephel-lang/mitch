@@ -24,6 +24,7 @@ let generate (o, s) =
       get_index 0 n s <&> (fun i -> DUP (i, n)) <&> push_in r >>= generate s
     | Val a :: s -> PUSH a |> push_in r |> generate s
     | Code (n, a) :: s -> LAMBDA (n, a) |> push_in r |> generate s
+    | RecCode (n, a) :: s -> LAMBDA_REC (n, a) |> push_in r |> generate s
     | Exec (a, c) :: s -> EXEC |> push_in r |> generate (c :: a :: s)
     | Car a :: s -> CAR |> push_in r |> generate (a :: s)
     | Cdr a :: s -> CDR |> push_in r |> generate (a :: s)
@@ -55,6 +56,10 @@ let rec optimise_instruction s =
   | LAMBDA (n, a) ->
     let+ o = optimise [ Var n ] a >>= generate in
     ([], Code (n, o) :: s)
+  | LAMBDA_REC (n, a) ->
+    (* TODO *)
+    let+ o = optimise [] a >>= generate in
+    ([ LAMBDA_REC (n, o) ], s)
   | DIG (i, n) -> Ok ([ DIG (i, n) ], s)
   | DUP (i, n) ->
     Ok
@@ -102,6 +107,7 @@ let rec optimise_instruction s =
   | PAIR ->
     Ok
       (match s with a :: b :: s -> ([], Pair (a, b) :: s) | _ -> ([ PAIR ], s))
+  | a -> Ok ([ a ], s)
 
 and optimise s c =
   let open Monad in
