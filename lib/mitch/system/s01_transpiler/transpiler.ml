@@ -1,6 +1,5 @@
 open Mitch_lang
 open Mitch_vm
-open Stack
 open Preface.Result
 
 module Monad = Monad (struct
@@ -11,6 +10,7 @@ let consume n s =
   let rec consume i s =
     let open Monad in
     let open Objcode in
+    let open Stack in
     match s with
     | [] -> Error ("Transpilation error: " ^ n ^ " not found!")
     | VAR m :: s' when n = m -> Ok ([ DUP (i, n) ], VAR m :: s')
@@ -24,6 +24,7 @@ let garbage n s =
   let rec garbage i s =
     let open Monad in
     let open Objcode in
+    let open Stack in
     match s with
     | [] -> Error ("Transpilation Error: " ^ n ^ " not found!")
     | VAR m :: s when n = m -> Ok (DROP (i, n), s)
@@ -33,16 +34,27 @@ let garbage n s =
   in
   garbage 0 s
 
-let rec compile_binding n e s =
+let rec compile_binding :
+    type a.
+       string
+    -> a Expr.t
+    -> Stack.t list
+    -> (Objcode.t list * Stack.t list, string) result =
+ fun n e s ->
   let open Monad in
+  let open Stack in
   let* o, s' = compile e (VAR n :: s) in
   let+ g_o, s' = garbage n s' in
   (o @ [ g_o ], s')
 
-and compile e s =
+and compile :
+    type a.
+    a Expr.t -> Stack.t list -> (Objcode.t list * Stack.t list, string) result =
+ fun e s ->
   let open Monad in
   let open Expr in
   let open Objcode in
+  let open Stack in
   match e with
   (* Atoms *)
   | Unit -> Ok ([ PUSH UNIT ], VAL "unit" :: s)
@@ -87,6 +99,7 @@ and compile e s =
     (o_l @ o_r @ [ EXEC ], VAL "app" :: List.tl (List.tl s))
   | _ -> Error ("Cannot compile expression: " ^ Expr.to_string e)
 
-let run e =
+let run : type a. a Expr.t -> (Objcode.t list, string) result =
+ fun e ->
   let open Monad in
   compile e [] <&> fst
