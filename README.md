@@ -1,4 +1,4 @@
-# mitch
+# Mitch
 POC for compilation to Michelson
 
 ## Compilation stage
