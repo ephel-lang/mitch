@@ -27,6 +27,8 @@ let rec simplify_sequence =
     if j > i
     then DROP (j - 1, n) :: DIG (i, m) :: l
     else DROP (j - 1, n) :: DIG (i - 1, m) :: l
+  | DUP(0, _) :: CAR :: SWAP :: CDR :: l -> UNPAIR :: SWAP :: l
+  | DUP(0, _) :: CDR :: SWAP :: CAR :: l -> UNPAIR :: l
   | a :: s -> simplify_instruction a :: simplify_sequence s
   | [] -> []
 

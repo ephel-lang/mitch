@@ -18,6 +18,7 @@ type t =
   | PAIR
   | CAR
   | CDR
+  | UNPAIR
   | LAMBDA_REC of string * t list
   | DIP of int * t list
 
@@ -48,6 +49,7 @@ and render_t ppf =
   | PAIR -> fprintf ppf "PAIR"
   | CAR -> fprintf ppf "CAR"
   | CDR -> fprintf ppf "CDR"
+  | UNPAIR -> fprintf ppf "UNPAIR"
   | LAMBDA_REC (n, l) -> fprintf ppf "LAMBDA_REC[%s] { %a }" n render l
   | DIP (i, l) -> fprintf ppf "DIP (%i, { %a })" i render l
 
