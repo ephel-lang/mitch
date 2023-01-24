@@ -42,6 +42,10 @@ a set of rewriting rules.
 This last stages revert the expansion process turing a tree base source code to a DAG
 in order to reduce the size of the souce code finally.
 
+## Tezos related projects
+
+- [Michelson optimizer](https://www.dailambda.jp/optz/)
+
 # License
 
 MIT License
