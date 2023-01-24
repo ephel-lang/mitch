@@ -1,5 +1,6 @@
 # Mitch
-POC for compilation to Michelson
+
+MVP for the compilation of an extended lambda-calculus to Michelson.
 
 ## Compilation stage
 
@@ -9,10 +10,37 @@ Things to be done in order to a have a complete POC:
 - [X] Sum data covering Inl, Inr and Case
 - [X] Product data covering Pair, First and Second
 - [X] Code Optimisation
-- [ ] Partial evaluation
 - [ ] Recursive function
+- [ ] Partial evaluation
 - [ ] Type decoration
 - [ ] Recursive types
+
+## Compilation Sketch 
+
+### Transpilation
+
+The transpilation takes a lambda-caluculus with recursion, sum and product data and 
+produces the corresponding Michelson code.
+
+### Expansion
+
+Expansion is a denormalisation operation building a source code based on a tree from
+a one which is a DAG.
+
+### Optimisation
+
+This stage provides an optimised version of the initial Michelson source code. This 
+optimisation is done thanks to a symbolique evaluation. 
+
+### Simplification
+
+The simplification is process which detect some pattern. This is a system based on
+a set of rewriting rules.
+
+### Normalisation
+
+This last stages revert the expansion process turing a tree base source code to a DAG
+in order to reduce the size of the souce code finally.
 
 # License
 
