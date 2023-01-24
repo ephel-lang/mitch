@@ -34,8 +34,7 @@ optimisation is done thanks to a symbolique evaluation.
 
 ### Simplification
 
-The simplification is process which detect some pattern. This is a system based on
-a set of rewriting rules.
+The simplification is the process which detects patterns and apply rewriting rules.
 
 ### Normalisation
 
