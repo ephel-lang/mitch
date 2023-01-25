@@ -48,7 +48,7 @@ Note: types are not given in the Michelson sample (for the moment).
 ### Basic Pair manipulation
 
 ```ocaml
-fun p -> (snd p) (fst p) 
+(fun p -> (snd p) (fst p))
 ```
 
 is transpiled to
@@ -66,7 +66,7 @@ LAMBDA { UNPAIR; EXEC }
 ### Symbolic evaluation 
 
 ```ocaml
-fun x -> case (inl x) (fun x -> x) (fun _ -> 2) 
+(fun x -> case (inl x) (fun x -> x) (fun _ -> 2))
 ```
 
 is transpiled to
