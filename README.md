@@ -60,7 +60,7 @@ LAMBDA{ DUP 0; LEFT; IF_LEFT { DUP 0; DROP 1 } { PUSH (INT 3); DROP 1 }; DROP 1 
 optimised to
 
 ````michelson
-LAMBDA[x] { DUP (0, x); DROP (1, x) }
+LAMBDA { DUP 0; DROP 1 }
 ````
 
 and finally simplified to
