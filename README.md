@@ -54,7 +54,7 @@ Note: types are not given in the Michelson sample (for the moment).
 is transpiled to
 
 ```michelson
-LAMBDA{ DUP 0; LEFT; IF_LEFT { DUP 0; DROP 1 } { PUSH (INT 3); DROP 1 }; DROP 1 }
+LAMBDA { DUP 0; LEFT; IF_LEFT { DUP 0; DROP 1 } { PUSH (INT 3); DROP 1 }; DROP 1 }
 ```
 
 optimised to
