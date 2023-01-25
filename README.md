@@ -45,25 +45,7 @@ in order to reduce the size of the souce code finally.
 
 Note: types are not given in the Michelson sample (for the moment).
 
-### Basic Pair manipulation
-
-```ocaml
-(fun p -> (snd p) (fst p))
-```
-
-is transpiled to
-
-```michelson
-LAMBDA { DUP 0; CDR; DUP 1; CAR; EXEC; DROP 1 }
-```
-
-and finally optimized to 
-
-```michelson
-LAMBDA { UNPAIR; EXEC }
-```
-
-### Symbolic evaluation 
+### Symbolic evaluation in action
 
 ```ocaml
 (fun x -> case (inl x) (fun x -> x) (fun _ -> 3))
@@ -81,7 +63,23 @@ and finally optimized to
 LAMBDA { }
 ```
 
+### Simplification in action
 
+```ocaml
+(fun p -> (snd p) (fst p))
+```
+
+is transpiled to
+
+```michelson
+LAMBDA { DUP 0; CDR; DUP 1; CAR; EXEC; DROP 1 }
+```
+
+and finally optimized to 
+
+```michelson
+LAMBDA { UNPAIR; EXEC }
+```
 
 ## Tezos related projects
 
