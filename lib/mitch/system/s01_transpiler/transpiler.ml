@@ -65,10 +65,10 @@ and compile :
   (* Sum *)
   | Inl e ->
     let+ o, s = compile e s in
-    (o @ [ LEFT ], VAL "left" :: s)
+    (o @ [ LEFT ], VAL "left" :: (List.tl s))
   | Inr e ->
     let+ o, s = compile e s in
-    (o @ [ RIGHT ], VAL "right" :: s)
+    (o @ [ RIGHT ], VAL "right" :: (List.tl s))
   | Case (e, Abs (n, l), Abs (m, r)) ->
     let* e_o, s = compile e s in
     let* l_o, _ = compile_binding n l (List.tl s) in

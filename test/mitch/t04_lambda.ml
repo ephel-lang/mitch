@@ -22,7 +22,7 @@ let compile_01 () =
          , Abs
              ( "x"
              , Case
-                 (Var "x", Abs ("y", Var "y"), Abs ("y", App (Var "f",  Var "y")))
+                 (Var "x", Abs ("y", Var "y"), Abs ("y", App (Var "f", Var "y")))
              ) ) )
   and expected =
     [

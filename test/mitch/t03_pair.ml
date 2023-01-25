@@ -58,7 +58,7 @@ let compile_06 () =
   let result = compile (Abs ("p", App (Snd (Var "p"), Fst (Var "p"))))
   and expected = [ LAMBDA ("p", [ UNPAIR; EXEC ]) ] in
   Alcotest.(check (result string string))
-    "compile (fun p -> (fst p) (snd p))"
+    "compile (fun p -> (snd p) (fst p))"
     (return expected <&> to_string)
     (result <&> to_string)
 

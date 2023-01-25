@@ -124,6 +124,19 @@ let compile_10 () =
     (return expected <&> to_string)
     (result <&> to_string)
 
+let compile_11 () =
+  let result =
+    Transpiler.run
+      (Abs ("x", (Case
+         ( Inl (Var "x")
+         , Abs ("x", Var "x")
+         , Abs ("x", Int 3) ) )))
+  and expected = [ LAMBDA("x", []) ] in
+  Alcotest.(check (result string string))
+    "compile (fun x -> case (inl x) (fun x -> x) (fun _ -> 2))"
+    (return expected <&> to_string)
+    (result <&> to_string)
+
 let cases =
   let open Alcotest in
   ( "Sum Compilation"
@@ -138,4 +151,5 @@ let cases =
     ; test_case "compile O8" `Quick compile_08
     ; test_case "compile O9" `Quick compile_09
     ; test_case "compile 10" `Quick compile_10
+    ; test_case "compile 11" `Quick compile_11
     ] )

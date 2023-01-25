@@ -41,6 +41,48 @@ The simplification is the process which detects patterns and apply rewriting rul
 This last stages revert the expansion process turing a tree base source code to a DAG
 in order to reduce the size of the souce code finally.
 
+## Some examples ...
+
+Note: types are not given in the Michelson sample (for the moment).
+
+### Basic Pair manipulation
+
+```ocaml
+fun p -> (snd p) (fst p) 
+```
+
+is transpiled to
+
+```michelson
+LAMBDA { DUP 0; CDR; DUP 1; CAR; EXEC; DROP 1 }
+```
+
+and finally optimized to 
+
+```michelson
+LAMBDA { UNPAIR; EXEC }
+```
+
+### Symbolic evaluation 
+
+```ocaml
+fun x -> case (inl x) (fun x -> x) (fun _ -> 2) 
+```
+
+is transpiled to
+
+```michelson
+LAMBDA{ DUP 0; LEFT; IF_LEFT { DUP 0; DROP 1 } { PUSH (INT 3); DROP 1 }; DROP 1 }
+```
+
+and finally optimized to
+
+```michelson
+LAMBDA { }
+```
+
+
+
 ## Tezos related projects
 
 - [Michelson: the language of Smart Contracts in Tezos](https://tezos.gitlab.io/active/michelson.html)
