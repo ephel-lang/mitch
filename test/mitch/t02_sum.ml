@@ -126,7 +126,7 @@ let compile_10 () =
 
 let compile_11 () =
   let result =
-    Transpiler.run
+    compile
       (Abs ("x", (Case
          ( Inl (Var "x")
          , Abs ("x", Var "x")
