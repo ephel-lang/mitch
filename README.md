@@ -66,7 +66,7 @@ LAMBDA { UNPAIR; EXEC }
 ### Symbolic evaluation 
 
 ```ocaml
-(fun x -> case (inl x) (fun x -> x) (fun _ -> 2))
+(fun x -> case (inl x) (fun x -> x) (fun _ -> 3))
 ```
 
 is transpiled to
