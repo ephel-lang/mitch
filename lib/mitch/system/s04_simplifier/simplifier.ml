@@ -29,6 +29,7 @@ let rec simplify_sequence =
     else DROP (j - 1, n) :: DIG (i - 1, m) :: l
   | DUP (0, _) :: CAR :: SWAP :: CDR :: l -> UNPAIR :: SWAP :: l
   | DUP (0, _) :: CDR :: SWAP :: CAR :: l -> UNPAIR :: l
+  | DUP (0, n) :: CDR :: DUP (1, _) :: CAR :: PAIR :: l -> DUP (0, n) :: l
   | a :: s -> simplify_instruction a :: simplify_sequence s
   | [] -> []
 

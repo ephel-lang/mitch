@@ -127,11 +127,8 @@ let compile_10 () =
 let compile_11 () =
   let result =
     compile
-      (Abs ("x", (Case
-         ( Inl (Var "x")
-         , Abs ("x", Var "x")
-         , Abs ("x", Int 3) ) )))
-  and expected = [ LAMBDA("x", []) ] in
+      (Abs ("x", Case (Inl (Var "x"), Abs ("x", Var "x"), Abs ("x", Int 3))))
+  and expected = [ LAMBDA ("x", []) ] in
   Alcotest.(check (result string string))
     "compile (fun x -> case (inl x) (fun x -> x) (fun _ -> 2))"
     (return expected <&> to_string)

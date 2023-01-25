@@ -65,10 +65,10 @@ and compile :
   (* Sum *)
   | Inl e ->
     let+ o, s = compile e s in
-    (o @ [ LEFT ], VAL "left" :: (List.tl s))
+    (o @ [ LEFT ], VAL "left" :: List.tl s)
   | Inr e ->
     let+ o, s = compile e s in
-    (o @ [ RIGHT ], VAL "right" :: (List.tl s))
+    (o @ [ RIGHT ], VAL "right" :: List.tl s)
   | Case (e, Abs (n, l), Abs (m, r)) ->
     let* e_o, s = compile e s in
     let* l_o, _ = compile_binding n l (List.tl s) in
@@ -76,9 +76,9 @@ and compile :
     (e_o @ [ IF_LEFT (l_o, r_o) ], VAL "case" :: List.tl s)
   (* Product *)
   | Pair (l, r) ->
-    let* r_o, s = compile r s in
-    let+ l_o, s = compile l (List.tl s) in
-    (r_o @ l_o @ [ PAIR ], VAL "pair" :: List.tl s)
+    let* r_o, _ = compile r s in
+    let+ l_o, _ = compile l (VAL "cdr" :: s) in
+    (r_o @ l_o @ [ PAIR ], VAL "pair" :: s)
   | Fst o ->
     let+ l_o, s = compile o s in
     (l_o @ [ CAR ], VAL "fst" :: List.tl s)

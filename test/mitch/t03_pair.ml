@@ -62,6 +62,14 @@ let compile_06 () =
     (return expected <&> to_string)
     (result <&> to_string)
 
+let compile_07 () =
+  let result = compile (Abs ("p", Pair (Fst (Var "p"), Snd (Var "p"))))
+  and expected = [ LAMBDA ("p", []) ] in
+  Alcotest.(check (result string string))
+    "compile (fun p -> (snd p) (fst p))"
+    (return expected <&> to_string)
+    (result <&> to_string)
+
 let cases =
   let open Alcotest in
   ( "Pair Compilation"
@@ -72,4 +80,5 @@ let cases =
     ; test_case "compile 04" `Quick compile_04
     ; test_case "compile 05" `Quick compile_05
     ; test_case "compile 06" `Quick compile_06
+    ; test_case "compile 07" `Quick compile_07
     ] )
