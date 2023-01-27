@@ -9,8 +9,6 @@ type tUnit = T_UNIT
 type ('a, 'b) tFun = T_FUN
 type ('a, 'b) tSum = T_SUM
 type ('a, 'b) tProd = T_PROD
-type 'a tCase = T_PROD
-type 'a tApp = T_APP
 
 type _ t =
   | Unit : tUnit t
