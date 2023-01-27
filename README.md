@@ -90,7 +90,7 @@ LAMBDA { UNPAIR; EXEC }
 ## Tezos related projects
 
 - [Michelson: the language of Smart Contracts in Tezos](https://tezos.gitlab.io/active/michelson.html)
-- [Michelson optimizer](https://www.dailambda.jp/optz/)
+- [DaiLambda, Inc. Michelson optimizer](https://www.dailambda.jp/optz/)
 
 # License
 
