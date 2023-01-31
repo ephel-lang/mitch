@@ -28,11 +28,10 @@ let compile_01 () =
     [
       LAMBDA_REC
         ( "f"
+        , "x"
         , [
             DUP (0, "x")
-          ; IF_LEFT
-              ([ DROP (1, "x") ], [ DROP (1, "x"); DUP (1, "f"); SWAP; EXEC ])
-          ; DIP (1, [ DROP (1, "f") ])
+          ; IF_LEFT ([ DROP (1, "x"); DROP (1, "f") ], [ DROP (1, "x"); EXEC ])
           ] )
     ]
   in

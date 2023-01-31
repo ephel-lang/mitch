@@ -30,6 +30,7 @@ let rec simplify_sequence =
   | DUP (0, _) :: CAR :: SWAP :: CDR :: l -> UNPAIR :: SWAP :: l
   | DUP (0, _) :: CDR :: SWAP :: CAR :: l -> UNPAIR :: l
   | DUP (0, n) :: CDR :: DUP (1, _) :: CAR :: PAIR :: l -> DUP (0, n) :: l
+  | SWAP :: SWAP :: l -> l
   | a :: s -> simplify_instruction a :: simplify_sequence s
   | [] -> []
 
@@ -37,7 +38,7 @@ and simplify_instruction =
   let open Objcode in
   function
   | LAMBDA (n, l) -> LAMBDA (n, simplify_sequence l)
-  | LAMBDA_REC (n, l) -> LAMBDA_REC (n, simplify_sequence l)
+  | LAMBDA_REC (f, n, l) -> LAMBDA_REC (f, n, simplify_sequence l)
   | IF_LEFT (l, r) -> IF_LEFT (simplify_sequence l, simplify_sequence r)
   | o -> o
 

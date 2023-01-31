@@ -21,7 +21,7 @@ and normalise_instruction =
   let open Objcode in
   function
   | LAMBDA (n, l) -> LAMBDA (n, normalise_sequence l)
-  | LAMBDA_REC (n, l) -> LAMBDA_REC (n, normalise_sequence l)
+  | LAMBDA_REC (f, n, l) -> LAMBDA_REC (f, n, normalise_sequence l)
   | IF_LEFT (l, r) -> IF_LEFT (normalise_sequence l, normalise_sequence r)
   | o -> o
 

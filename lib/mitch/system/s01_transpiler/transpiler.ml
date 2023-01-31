@@ -100,7 +100,7 @@ and compile :
   | Rec (f, Abs (n, e)) ->
     let* o, s = compile_binding n e [ VAR f ] in
     let+ g, _ = garbage f s in
-    ([ LAMBDA_REC (f, o @ [ DIP (1, [ g ]) ]) ], VAL "lambda-rec" :: s)
+    ([ LAMBDA_REC (f, n, o @ [ g ]) ], VAL "lambda-rec" :: s)
   | _ -> Error ("Cannot compile expression: " ^ Expr.to_string e)
 
 let run : type a. a Expr.t -> (Objcode.t list, string) result =

@@ -19,7 +19,7 @@ type t =
   | CAR
   | CDR
   | UNPAIR
-  | LAMBDA_REC of string * t list
+  | LAMBDA_REC of string * string * t list
   | DIP of int * t list
 
 let render_value ppf =
@@ -50,7 +50,7 @@ and render_t ppf =
   | CAR -> fprintf ppf "CAR"
   | CDR -> fprintf ppf "CDR"
   | UNPAIR -> fprintf ppf "UNPAIR"
-  | LAMBDA_REC (n, l) -> fprintf ppf "LAMBDA_REC[%s] { %a }" n render l
+  | LAMBDA_REC (f, n, l) -> fprintf ppf "LAMBDA_REC[%s,%s] { %a }" f n render l
   | DIP (i, l) -> fprintf ppf "DIP (%i, { %a })" i render l
 
 let equal a b =
