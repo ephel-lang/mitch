@@ -146,6 +146,26 @@ and finally simplified to
 LAMBDA { UNPAIR; EXEC }
 ```
 
+### Recursive function
+
+```ocaml
+rec(f).(fun x -> f x)
+```
+
+is transpiled to
+
+```
+LAMBDA_REC { DUP 1; DUP 1; EXEC; DROP 1; DROP 1 }
+```
+
+then simplified to
+
+```
+LAMBDA_REC { EXEC }
+```
+
+Note: This is a tail recursive function - which never terminates of course!
+
 ## Tezos related projects
 
 - [Michelson: the language of Smart Contracts in Tezos](https://tezos.gitlab.io/active/michelson.html)
