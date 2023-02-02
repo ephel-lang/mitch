@@ -15,6 +15,14 @@ let compile s =
   <&> Normaliser.run
 
 let compile_01 () =
+  let result = compile (Rec ("f", Abs ("x", App (Var "f", Var "x"))))
+  and expected = [ LAMBDA_REC ("f", "x", [ EXEC ]) ] in
+  Alcotest.(check (result string string))
+    "compile rec(f).(fun x -> f x)"
+    (return expected <&> to_string)
+    (result <&> to_string)
+
+let compile_02 () =
   let result =
     compile
       (Rec
@@ -42,4 +50,8 @@ let compile_01 () =
 
 let cases =
   let open Alcotest in
-  ("Lambda Compilation", [ test_case "compile O1" `Quick compile_01 ])
+  ( "Lambda Compilation"
+  , [
+      test_case "compile O1" `Quick compile_01
+    ; test_case "compile O2" `Quick compile_02
+    ] )

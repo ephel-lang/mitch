@@ -10,36 +10,95 @@ Things to be done in order to a have a complete POC:
 - [X] Sum data covering Inl, Inr and Case
 - [X] Product data covering Pair, First and Second
 - [X] Code Optimisation
-- [ ] Recursive function
+- [X] Recursive function
 - [ ] Partial evaluation
-- [ ] Type decoration
-- [ ] Recursive types
 
-## Compilation Sketch 
+## Compilation Stages 
+
+```
+pure source 
+    >>= transpile
+    <&> expand 
+    >>= optimise 
+    <&> simplify 
+    <&> normalise 
+```
 
 ### Transpilation
 
-The transpilation takes a lambda-caluculus with recursion, sum and product data and 
-produces the corresponding Michelson code.
+The transpilation takes a lambda-calculus with recursion, sum and 
+product data and produces the corresponding Michelson code.
 
 ### Expansion
 
-Expansion is a denormalisation operation building a source code based on a tree from
-a one which is a DAG.
+Expansion is a de-normalisation operation building a source code 
+based on a tree from a one which is a DAG. 
+
+For instance, a code like:
+
+```
+IF_LEFT A B ; C
+```
+
+becomes 
+
+```
+IF_LEFT { A ; C } { B ; C }
+```
 
 ### Optimisation
 
-This stage provides an optimised version of the initial Michelson source code. This 
-optimisation is done thanks to a symbolique evaluation. 
+This stage provides an optimised version of the initial Michelson 
+source code. This optimisation is done thanks to a symbolic 
+evaluation.
+
+For instance, a code like:
+
+```
+LEFT; IF_LEFT B C
+```
+
+becomes
+
+```
+B
+```
 
 ### Simplification
 
-The simplification is the process which detects patterns and apply rewriting rules.
+The simplification is the process which detects patterns and apply 
+rewriting rules.
+
+For instance, a code like:
+
+```
+SWAP; SWAP; C
+```
+
+becomes
+
+```
+C
+```
 
 ### Normalisation
 
-This last stages revert the expansion process turing a tree base source code to a DAG
-in order to reduce the size of the souce code finally.
+This last stages revert the expansion process turning a tree based 
+source code to a DAG in order to reduce the size of the source code 
+finally.
+
+For instance, a code like:
+
+```
+IF_LEFT { A ; C } { B ; C }
+```
+
+becomes
+
+```
+IF_LEFT A B ; C
+```
+
 
 ## Some examples ...
 
