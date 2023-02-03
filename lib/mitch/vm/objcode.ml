@@ -20,7 +20,6 @@ type t =
   | CDR
   | UNPAIR
   | LAMBDA_REC of string * string * t list
-  | DIP of int * t list
 
 let render_value ppf =
   let open Format in
@@ -51,7 +50,6 @@ and render_t ppf =
   | CDR -> fprintf ppf "CDR"
   | UNPAIR -> fprintf ppf "UNPAIR"
   | LAMBDA_REC (f, n, l) -> fprintf ppf "LAMBDA_REC[%s,%s] { %a }" f n render l
-  | DIP (i, l) -> fprintf ppf "DIP (%i, { %a })" i render l
 
 let equal a b =
   match (a, b) with

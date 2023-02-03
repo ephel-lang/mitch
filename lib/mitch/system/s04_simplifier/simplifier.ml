@@ -13,7 +13,6 @@ let rec simplify_sequence =
   function
   | DIG (0, _) :: l -> l
   | DIG (1, _) :: l -> SWAP :: l
-  | DIP (0, l') :: l -> l' @ l
   | SWAP :: DROP (i, n) :: l when i > 1 -> DROP (i, n) :: SWAP :: l
   | EXEC :: DROP (i, n) :: l when i > 0 -> DROP (i + 1, n) :: EXEC :: l
   | a :: DROP (i, n) :: l when is_push a && i > 0 -> DROP (i - 1, n) :: a :: l
