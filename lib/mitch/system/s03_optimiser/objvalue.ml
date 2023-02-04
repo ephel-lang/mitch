@@ -19,9 +19,9 @@ let rec render_value ppf =
   function
   | Var n -> fprintf ppf "%s" n
   | Dup n -> fprintf ppf "copy(%s)" n
-  | Val v -> Objcode.render_value ppf v
-  | Code (_, c) -> Objcode.render ppf c
-  | RecCode (f, n, c) -> fprintf ppf "Rec(%s,%s,%a)" f n Objcode.render c
+  | Val v -> Render.render_value ppf v
+  | Code (_, c) -> Render.render ppf c
+  | RecCode (f, n, c) -> fprintf ppf "Rec(%s,%s,%a)" f n Render.render c
   | Exec (a, b) -> fprintf ppf "Exec(%a,%a)" render_value a render_value b
   | Car a -> fprintf ppf "Car(%a)" render_value a
   | Cdr a -> fprintf ppf "Cdr(%a)" render_value a
@@ -29,8 +29,8 @@ let rec render_value ppf =
   | Left a -> fprintf ppf "Left(%a)" render_value a
   | Right a -> fprintf ppf "Right(%a)" render_value a
   | IfLeft (a, l, r) ->
-    fprintf ppf "IfLeft(%a,%a,%a)" render_value a Objcode.render l
-      Objcode.render r
+    fprintf ppf "IfLeft(%a,%a,%a)" render_value a Render.render l Render.render
+      r
 
 let rec render_values ppf =
   let open Format in

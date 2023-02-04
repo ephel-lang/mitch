@@ -1,25 +1,5 @@
 open Mitch_utils
-
-type value =
-  | INT of int
-  | UNIT
-
-type t =
-  | PUSH of value
-  | EXEC
-  | LAMBDA of string * t list
-  | DIG of int * string
-  | DUP of int * string
-  | DROP of int * string
-  | SWAP
-  | LEFT
-  | RIGHT
-  | IF_LEFT of t list * t list
-  | PAIR
-  | CAR
-  | CDR
-  | UNPAIR
-  | LAMBDA_REC of string * string * t list
+open Objcode
 
 let render_value ppf =
   let open Format in
@@ -50,6 +30,7 @@ and render_t ppf =
   | CDR -> fprintf ppf "CDR"
   | UNPAIR -> fprintf ppf "UNPAIR"
   | LAMBDA_REC (f, n, l) -> fprintf ppf "LAMBDA_REC[%s,%s] { %a }" f n render l
+  | APPLY -> fprintf ppf "APPLY"
 
 let equal a b =
   match (a, b) with
