@@ -1,5 +1,5 @@
 open Mitch_utils
-open Expr
+open Term
 
 let rec render : type a. Format.formatter -> a t -> unit =
  fun ppf ->

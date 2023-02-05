@@ -37,7 +37,7 @@ let garbage n s =
 let rec compile_binding :
     type a.
        string
-    -> a Expr.t
+    -> a Term.t
     -> Stack.t list
     -> (Objcode.t list * Stack.t list, string) result =
  fun n e s ->
@@ -49,10 +49,10 @@ let rec compile_binding :
 
 and compile :
     type a.
-    a Expr.t -> Stack.t list -> (Objcode.t list * Stack.t list, string) result =
+    a Term.t -> Stack.t list -> (Objcode.t list * Stack.t list, string) result =
  fun e s ->
   let open Monad in
-  let open Expr in
+  let open Term in
   let open Objcode in
   let open Stack in
   match e with
@@ -103,7 +103,7 @@ and compile :
     ([ LAMBDA_REC (f, n, o @ [ g ]) ], VAL "lambda-rec" :: s)
   | _ -> Error ("Cannot compile expression: " ^ Render.to_string e)
 
-let run : type a. a Expr.t -> (Objcode.t list, string) result =
+let run : type a. a Term.t -> (Objcode.t list, string) result =
  fun e ->
   let open Monad in
   compile e [] <&> fst
