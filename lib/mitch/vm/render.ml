@@ -32,11 +32,4 @@ and render_t ppf =
   | LAMBDA_REC (f, n, l) -> fprintf ppf "LAMBDA_REC[%s,%s] { %a }" f n render l
   | APPLY -> fprintf ppf "APPLY"
 
-let equal a b =
-  match (a, b) with
-  | DIG (i, _), DIG (j, _) -> i = j
-  | DROP (i, _), DROP (j, _) -> i = j
-  | DUP (i, _), DUP (j, _) -> i = j
-  | _ -> a = b
-
 let to_string o = Render.to_string render o
