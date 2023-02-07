@@ -1,8 +1,7 @@
 open Mitch_vm
 open Objvalue
-open Preface.Result
 
-module Monad = Monad (struct
+module Monad = Preface.Result.Monad (struct
   type t = string
 end)
 

@@ -1,8 +1,7 @@
 open Mitch_vm
 open Mitch_lang
-open Preface.Result
 
-module Monad = Monad (struct
+module Monad = Preface.Result.Monad (struct
   type t = string
 end)
 
@@ -91,8 +90,8 @@ and compile :
     ([ LAMBDA (n, o) ], VAL "lambda" :: s)
   | Let (n, e, f) ->
     let* e_o, s = compile e s in
-    let+ l_o, s' = compile_binding n f (List.tl s) in
-    (e_o @ l_o, s')
+    let+ l_o, s = compile_binding n f (List.tl s) in
+    (e_o @ l_o, s)
   | App (l, r) ->
     let* o_l, s = compile l s in
     let+ o_r, s = compile r s in

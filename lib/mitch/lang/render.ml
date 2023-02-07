@@ -17,6 +17,6 @@ let rec render : type a. Format.formatter -> a t -> unit =
   | Fst e -> fprintf ppf "fst(%a)" render e
   | Snd e -> fprintf ppf "snd(%a)" render e
   | Let (n, e, f) -> fprintf ppf "let %s = %a in %a" n render e render f
-  | Rec (n, c) -> fprintf ppf "rec(%s,%a)" n render c
+  | Rec (n, c) -> fprintf ppf "rec(%s).(%a)" n render c
 
 let to_string : type a. a t -> string = fun o -> Render.to_string render o
