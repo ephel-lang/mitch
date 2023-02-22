@@ -1,1 +1,1 @@
-val run : Mitch_vm.Objcode.t list -> Mitch_vm.Objcode.t list
+val run : Mitch_ir.Objcode.t list -> Mitch_ir.Objcode.t list

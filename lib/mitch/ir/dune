@@ -1,5 +1,5 @@
 (library
- (name mitch_vm)
- (public_name mitch.vm)
+ (name mitch_ir)
+ (public_name mitch.ir)
  (libraries mitch.utils)
  (modules_without_implementation objcode))

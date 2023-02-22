@@ -1,4 +1,4 @@
 (library
  (name mitch_system_simplifier)
  (public_name mitch.system.simplifier)
- (libraries mitch.vm))
+ (libraries mitch.ir))

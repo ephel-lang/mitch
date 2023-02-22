@@ -1,1 +1,1 @@
-val run : 'a Mitch_lang.Term.t -> (Mitch_vm.Objcode.t list, string) result
+val run : 'a Mitch_lang.Term.t -> (Mitch_ir.Objcode.t list, string) result

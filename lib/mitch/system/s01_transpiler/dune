@@ -1,4 +1,4 @@
 (library
  (name mitch_system_transpiler)
  (public_name mitch.system.transpiler)
- (libraries preface mitch.lang mitch.vm))
+ (libraries preface mitch.lang mitch.ir))

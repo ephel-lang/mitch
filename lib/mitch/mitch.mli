@@ -1,3 +1,3 @@
 module Lang = Mitch_lang
-module Vm = Mitch_vm
+module Ir = Mitch_ir
 module System = Mitch_system

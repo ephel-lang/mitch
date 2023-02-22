@@ -1,6 +1,6 @@
 open Mitch.Lang.Term
-open Mitch.Vm.Objcode
-open Mitch.Vm.Render
+open Mitch.Ir.Objcode
+open Mitch.Ir.Render
 open Mitch.System
 
 open Preface.Result.Monad (struct

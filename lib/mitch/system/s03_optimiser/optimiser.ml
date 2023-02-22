@@ -1,4 +1,4 @@
-open Mitch_vm
+open Mitch_ir
 open Objvalue
 
 module Monad = Preface.Result.Monad (struct

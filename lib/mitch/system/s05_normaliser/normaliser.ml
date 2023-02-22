@@ -1,4 +1,4 @@
-open Mitch_vm
+open Mitch_ir
 
 let rec last =
   let open Preface.Option.Functor.Infix in

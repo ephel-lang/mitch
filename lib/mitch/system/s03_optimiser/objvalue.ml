@@ -1,4 +1,4 @@
-open Mitch_vm
+open Mitch_ir
 
 type t =
   | Var of string

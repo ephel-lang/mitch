@@ -4,7 +4,7 @@
  (libraries
   preface
   mitch.lang
-  mitch.vm
+  mitch.ir
   mitch.system.transpiler
   mitch.system.expander
   mitch.system.optimiser

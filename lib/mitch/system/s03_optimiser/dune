@@ -1,4 +1,4 @@
 (library
  (name mitch_system_optimiser)
  (public_name mitch.system.optimiser)
- (libraries preface mitch.vm))
+ (libraries preface mitch.ir))

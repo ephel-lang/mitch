@@ -1,4 +1,4 @@
-open Mitch_vm
+open Mitch_ir
 
 let is_push =
   let open Objcode in

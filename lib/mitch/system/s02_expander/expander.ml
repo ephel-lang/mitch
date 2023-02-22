@@ -1,4 +1,4 @@
-open Mitch_vm
+open Mitch_ir
 
 let rec expand_sequence =
   let open Objcode in

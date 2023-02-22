@@ -1,5 +1,5 @@
 (library
  (name mitch)
  (public_name mitch)
- (libraries mitch.lang mitch.vm mitch.system)
+ (libraries mitch.lang mitch.ir mitch.system)
  (modules_without_implementation mitch))
