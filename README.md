@@ -1,7 +1,7 @@
 # Mitch
 
-MVP for the compilation of an extended lambda-calculus to minimal stack style 
-virtual machine. Finally, for the compilation we target:
+Compilation of an extended lambda-calculus to minimal stack style 
+virtual machine. Identified targets are:
 - [ ] Michelson,
 - [ ] EVM,
 - [ ] WASM and
