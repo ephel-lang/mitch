@@ -5,8 +5,8 @@
  (generate_opam_files true)
  (package
   (name mitch)
-  (synopsis "POC compiler to Michelson")
-  (description "POC compiler to Michelson")
+  (synopsis "Compiler of extend lambda-calculus to STACK machine without GC")
+  (description "Compiler of extend lambda-calculus to STACK machine without GC")
   (depends
    (alcotest :with-test)
    (preface (>= 1.0.0))))

@@ -1,13 +1,5 @@
 open Mitch_ir
 
-let is_push =
-  let open Objcode in
-  function PUSH _ | LAMBDA _ -> true | _ -> false
-
-let is_replace =
-  let open Objcode in
-  function CAR | CDR | LEFT | RIGHT -> true | _ -> false
-
 let rec simplify_sequence =
   let open Objcode in
   function
@@ -15,8 +7,9 @@ let rec simplify_sequence =
   | DIG (1, _) :: l -> SWAP :: l
   | SWAP :: DROP (i, n) :: l when i > 1 -> DROP (i, n) :: SWAP :: l
   | EXEC :: DROP (i, n) :: l when i > 0 -> DROP (i + 1, n) :: EXEC :: l
-  | a :: DROP (i, n) :: l when is_push a && i > 0 -> DROP (i - 1, n) :: a :: l
-  | a :: DROP (i, n) :: l when is_replace a && i > 0 -> DROP (i, n) :: a :: l
+  | PUSH a :: DROP (i, n) :: l when i > 0 -> DROP (i - 1, n) :: PUSH a :: l
+  | ((CAR | CDR | LEFT | RIGHT) as a) :: DROP (i, n) :: l when i > 0 ->
+    DROP (i, n) :: a :: l
   | DUP (i, n) :: DROP (j, _) :: l when j = i + 1 -> DIG (i, n) :: l
   | DUP (i, m) :: DROP (j, n) :: l when j > i ->
     DROP (j - 1, n) :: DUP (i, m) :: l
