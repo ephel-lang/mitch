@@ -108,9 +108,9 @@ let rec optimise_instruction s =
       (match s with a :: b :: s -> ([], Pair (a, b) :: s) | _ -> ([ PAIR ], s))
   | a -> Ok ([ a ], s)
 
-and optimise s c =
+and optimise s =
   let open Monad in
-  match c with
+  function
   | [] -> Ok ([], s)
   | a :: l ->
     let* o, s = optimise_instruction s a in
