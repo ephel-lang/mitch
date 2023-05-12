@@ -93,6 +93,7 @@ and compile :
     let+ l_o, s = compile_binding n f (List.tl s) in
     (e_o @ l_o, s)
   | App (l, r) ->
+    (* TODO: Track partial applications *)
     let* o_l, s = compile l s in
     let+ o_r, s = compile r s in
     (o_l @ o_r @ [ EXEC ], VAL "app" :: List.tl (List.tl s))
@@ -100,7 +101,7 @@ and compile :
     let* o, s = compile_binding n e [ VAR f ] in
     let+ g, _ = garbage f s in
     ([ LAMBDA_REC (f, n, o @ [ g ]) ], VAL "lambda-rec" :: s)
-  | _ -> Error ("Cannot compile expression: " ^ Render.to_string e)
+  | _ -> Error ("Cannot compile expression: " ^ Render.Term.to_string e)
 
 let run : type a. a Term.t -> (Objcode.t list, string) result =
  fun e ->
