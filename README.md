@@ -1,11 +1,7 @@
 # Mitch
 
 Compilation of an extended lambda-calculus to minimal stack style 
-virtual machine. Finally, for the compilation we target:
-- [ ] Michelson,
-- [ ] EVM,
-- [ ] WASM and
-- [ ] the JRE.
+virtual machine.
 
 ## Compilation stage
 
